@@ -11,7 +11,7 @@ This project demonstrates how to effectively leverage AI as a co-pilot for stude
 
 # Features
 
-# Four Study Modes
+Four Study Modes
 
 1. **📖 Study Guides** - Comprehensive summaries with key concepts, definitions, and overview
 2. **📊 Quizzes** - Multiple choice questions with answers for self-testing
@@ -44,27 +44,6 @@ The system doesn't just dump content through GPT. Each mode uses carefully craft
 - CORS enabled for cross-origin requests
 - Static file serving from Express
 - Error handling and validation
-
-##How It Works
-
-# The AI Integration Strategy
-
-```javascript
-// Each mode gets a different, carefully designed prompt
-if (mode === "quiz") {
-  prompt = `
-Create a multiple choice quiz based on the following notes.
-Include 5-10 questions with 4 answer choices each (A, B, C, D).
-Mark the correct answer for each question.
-Format: [specific structure]
-`;
-}
-```
-**Why This Matters:**
-- I'm not asking AI to "make quiz questions" - I'm giving it a structured template
-- Format specifications ensure consistent, parseable output
-- The system message establishes context: "You are an expert academic study assistant"
-- This demonstrates understanding of prompt engineering, not blind AI usage
 
 ### User Flow
 
