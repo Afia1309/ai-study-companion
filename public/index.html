@@ -1,0 +1,614 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Study Companion</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: #111;
+      overflow-x: hidden;
+    }
+
+    /* Background floating elements */
+    .bg-decoration {
+      position: fixed;
+      z-index: 0;
+      opacity: 0.15;
+      pointer-events: none;
+      width: 100%;
+      height: 100%;
+    }
+
+    .floating-icon {
+      position: absolute;
+      animation: float 6s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-20px) rotate(5deg); }
+    }
+
+    .icon-1 { top: 10%; left: 10%; animation-delay: 0s; font-size: 60px; }
+    .icon-2 { top: 20%; right: 15%; animation-delay: 1s; font-size: 80px; }
+    .icon-3 { top: 60%; left: 8%; animation-delay: 2s; font-size: 70px; }
+    .icon-4 { bottom: 15%; right: 10%; animation-delay: 1.5s; font-size: 90px; }
+    .icon-5 { top: 45%; right: 20%; animation-delay: 0.5s; font-size: 65px; }
+    .icon-6 { bottom: 30%; left: 15%; animation-delay: 2.5s; font-size: 75px; }
+
+    /* Hero Section */
+    .hero {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 40px 20px;
+    }
+
+    .hero-content {
+      max-width: 900px;
+    }
+
+    .hero h1 {
+      font-size: 72px;
+      font-weight: 800;
+      color: white;
+      margin-bottom: 20px;
+      letter-spacing: -2px;
+      line-height: 1.1;
+    }
+
+    .gradient-text {
+      background: linear-gradient(90deg, #a8edea 0%, #fed6e3 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-subtitle {
+      font-size: 22px;
+      color: rgba(255, 255, 255, 0.9);
+      margin-bottom: 40px;
+      line-height: 1.6;
+    }
+
+    .cta-button {
+      display: inline-block;
+      padding: 18px 48px;
+      font-size: 18px;
+      font-weight: 700;
+      background: white;
+      color: #667eea;
+      border-radius: 50px;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+      cursor: pointer;
+      border: none;
+    }
+
+    .cta-button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Features Section */
+    .features-section {
+      position: relative;
+      z-index: 1;
+      background: #f7f8fa;
+      padding: 100px 20px;
+    }
+
+    .features-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-title {
+      font-size: 48px;
+      font-weight: 800;
+      text-align: center;
+      margin-bottom: 20px;
+      color: #111;
+    }
+
+    .section-subtitle {
+      font-size: 20px;
+      text-align: center;
+      color: #666;
+      margin-bottom: 80px;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 40px;
+      margin-bottom: 100px;
+    }
+
+    .feature-card {
+      background: white;
+      padding: 40px;
+      border-radius: 24px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+      transition: all 0.3s ease;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
+    }
+
+    .feature-icon {
+      font-size: 48px;
+      margin-bottom: 20px;
+    }
+
+    .feature-title {
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: #111;
+    }
+
+    .feature-description {
+      font-size: 16px;
+      line-height: 1.6;
+      color: #666;
+    }
+
+    /* Demo Section */
+    .demo-section {
+      background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+      padding: 100px 20px;
+      color: white;
+    }
+
+    .demo-container {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .demo-title {
+      font-size: 42px;
+      font-weight: 800;
+      text-align: center;
+      margin-bottom: 60px;
+    }
+
+    .demo-box {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 24px;
+      padding: 40px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 200px;
+      padding: 20px;
+      font-size: 16px;
+      border-radius: 16px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      background: rgba(255, 255, 255, 0.95);
+      resize: none;
+      outline: none;
+      font-family: 'Inter', sans-serif;
+      transition: all 0.2s ease;
+    }
+
+    textarea:focus {
+      border-color: white;
+      box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.2);
+    }
+
+    /* Mode selector styling */
+    #mode {
+      width: 100%;
+      padding: 16px;
+      font-size: 16px;
+      border-radius: 12px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      background: rgba(255, 255, 255, 0.95);
+      margin-top: 20px;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      outline: none;
+      transition: all 0.2s ease;
+      color: #111;
+    }
+
+    #mode:hover {
+      border-color: white;
+    }
+
+    #mode:focus {
+      border-color: white;
+      box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.2);
+    }
+
+    .generate-button {
+      margin-top: 24px;
+      width: 100%;
+      padding: 18px;
+      font-size: 18px;
+      font-weight: 700;
+      border-radius: 16px;
+      border: none;
+      background: white;
+      color: #667eea;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .generate-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    .output-box {
+      margin-top: 30px;
+      padding: 30px;
+      background: white;
+      border-radius: 16px;
+      color: #111;
+      white-space: pre-wrap;
+      line-height: 1.8;
+      font-size: 15px;
+      display: none;
+    }
+
+    .output-box.show {
+      display: block;
+      animation: slideIn 0.4s ease;
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .loading {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 16px;
+      color: rgba(255, 255, 255, 0.9);
+    }
+
+    /* How It Works Section */
+    .how-it-works {
+      background: white;
+      padding: 100px 20px;
+    }
+
+    .steps-container {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .step {
+      display: flex;
+      align-items: center;
+      gap: 60px;
+      margin-bottom: 80px;
+    }
+
+    .step:nth-child(even) {
+      flex-direction: row-reverse;
+    }
+
+    .step-number {
+      flex-shrink: 0;
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      font-weight: 800;
+      box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+    }
+
+    .step-content {
+      flex: 1;
+    }
+
+    .step-title {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: #111;
+    }
+
+    .step-description {
+      font-size: 18px;
+      line-height: 1.6;
+      color: #666;
+    }
+
+    .step-visual {
+      flex: 1;
+      background: #f7f8fa;
+      border-radius: 20px;
+      padding: 40px;
+      text-align: center;
+      font-size: 64px;
+    }
+
+    /* Footer CTA */
+    .footer-cta {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      padding: 80px 20px;
+      text-align: center;
+      color: white;
+    }
+
+    .footer-cta h2 {
+      font-size: 48px;
+      font-weight: 800;
+      margin-bottom: 24px;
+    }
+
+    .footer-cta p {
+      font-size: 20px;
+      margin-bottom: 40px;
+      opacity: 0.95;
+    }
+
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 48px;
+      }
+
+      .features-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .step {
+        flex-direction: column !important;
+        text-align: center;
+      }
+
+      .step-visual {
+        width: 100%;
+      }
+
+      .section-title {
+        font-size: 36px;
+      }
+
+      .demo-title, .footer-cta h2 {
+        font-size: 32px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Background Decoration -->
+  <div class="bg-decoration">
+    <div class="floating-icon icon-1">📚</div>
+    <div class="floating-icon icon-2">✨</div>
+    <div class="floating-icon icon-3">🎯</div>
+    <div class="floating-icon icon-4">💡</div>
+    <div class="floating-icon icon-5">📝</div>
+    <div class="floating-icon icon-6">🚀</div>
+  </div>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>
+        Study Smarter. <br>
+        <span class="gradient-text">Perform Better.</span>
+      </h1>
+      <p class="hero-subtitle">
+        Transform your lecture notes into structured study guides, practice quizzes, and flashcards in seconds with AI-powered learning.
+      </p>
+      <a href="#demo" class="cta-button">Get Started Free</a>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="features-section">
+    <div class="features-container">
+      <h2 class="section-title">Everything You Need to Ace Your Exams</h2>
+      <p class="section-subtitle">Powerful tools designed for modern students</p>
+
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">📖</div>
+          <h3 class="feature-title">Smart Study Guides</h3>
+          <p class="feature-description">
+            Convert messy lecture notes into clean, structured study guides with key concepts, definitions, and summaries organized perfectly for review.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">❓</div>
+          <h3 class="feature-title">Practice Questions</h3>
+          <p class="feature-description">
+            Generate unlimited practice questions tailored to your material. Get instant feedback and explanations to reinforce your understanding.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">🎴</div>
+          <h3 class="feature-title">Smart Flashcards</h3>
+          <p class="feature-description">
+            Automatically create flashcards from your notes. Perfect for memorization and quick review sessions before exams.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">📊</div>
+          <h3 class="feature-title">Quiz Yourself</h3>
+          <p class="feature-description">
+            Test your knowledge with AI-generated multiple choice and short answer quizzes. Track your progress and identify weak areas.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">⚡</div>
+          <h3 class="feature-title">Instant Results</h3>
+          <p class="feature-description">
+            Get your study materials in seconds, not hours. Spend less time organizing and more time learning what matters.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">🎯</div>
+          <h3 class="feature-title">Exam Focused</h3>
+          <p class="feature-description">
+            AI identifies the most important concepts and likely exam questions, so you can focus your study time where it counts most.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works -->
+  <section class="how-it-works">
+    <div class="steps-container">
+      <h2 class="section-title">How It Works</h2>
+      <p class="section-subtitle">From notes to mastery in three simple steps</p>
+
+      <div class="step">
+        <div class="step-number">1</div>
+        <div class="step-content">
+          <h3 class="step-title">Upload Your Notes</h3>
+          <p class="step-description">
+            Paste your lecture notes, textbook pages, or any study material. We support text, PDFs, and even handwritten notes.
+          </p>
+        </div>
+        <div class="step-visual">📄</div>
+      </div>
+
+      <div class="step">
+        <div class="step-number">2</div>
+        <div class="step-content">
+          <h3 class="step-title">AI Analyzes & Structures</h3>
+          <p class="step-description">
+            Our advanced AI reads through your content, identifies key concepts, and organizes everything into a comprehensive study guide.
+          </p>
+        </div>
+        <div class="step-visual">🤖</div>
+      </div>
+
+      <div class="step">
+        <div class="step-number">3</div>
+        <div class="step-content">
+          <h3 class="step-title">Study & Ace Your Exam</h3>
+          <p class="step-description">
+            Review your personalized study guide, practice with quizzes, and use flashcards. Everything you need to excel is right here.
+          </p>
+        </div>
+        <div class="step-visual">🎓</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Demo Section -->
+  <section class="demo-section" id="demo">
+    <div class="demo-container">
+      <h2 class="demo-title">Try It Now</h2>
+      <div class="demo-box">
+        <textarea id="notes" placeholder="Paste your lecture notes here and watch the magic happen..."></textarea>
+
+        <!-- NEW: Mode Selector Dropdown -->
+        <select id="mode">
+          <option value="study_guide">📖 Generate Study Guide</option>
+          <option value="quiz">📊 Generate Quiz</option>
+          <option value="flashcards">🎴 Generate Flashcards</option>
+          <option value="practice">❓ Generate Practice Questions</option>
+        </select>
+
+        <button class="generate-button" onclick="generate()">Generate</button>
+        <div class="loading" id="loading"></div>
+        <div class="output-box" id="output"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer CTA -->
+  <section class="footer-cta">
+    <h2>Ready to Transform Your Study Routine?</h2>
+    <p>Join thousands of students who are studying smarter, not harder.</p>
+    <a href="#demo" class="cta-button">Start Learning Now</a>
+  </section>
+
+  <script>
+    async function generate() {
+      const notes = document.getElementById("notes").value;
+      const mode = document.getElementById("mode").value;  // NEW: Get the selected mode
+      const outputDiv = document.getElementById("output");
+      const loadingDiv = document.getElementById("loading");
+
+      if (!notes.trim()) {
+        alert("Please paste some notes first.");
+        return;
+      }
+
+      loadingDiv.textContent = "✨ Generating your study material...";
+      outputDiv.classList.remove("show");
+      outputDiv.textContent = "";
+
+      try {
+        const response = await fetch("/generate", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ notes, mode })  // NEW: Send both notes and mode
+        });
+
+        const data = await response.json();
+        outputDiv.textContent = data.output || data.error;
+        outputDiv.classList.add("show");
+      } catch (error) {
+        outputDiv.textContent = "Something went wrong. Please try again.";
+        outputDiv.classList.add("show");
+      }
+
+      loadingDiv.textContent = "";
+    }
+
+    // Smooth scrolling for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        document.querySelector(this.getAttribute('href')).scrollIntoView({
+          behavior: 'smooth'
+        });
+      });
+    });
+  </script>
+</body>
+</html>
